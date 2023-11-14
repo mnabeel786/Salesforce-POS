@@ -1,10 +1,6 @@
-# E-Bikes Lightning Web Components Sample Application
+# Salesforce POS Lightning Web Components Sample Application
 
-[![CI](https://github.com/trailheadapps/ebikes-lwc/actions/workflows/ci.yml/badge.svg)](https://github.com/trailheadapps/ebikes-lwc/actions/workflows/ci.yml) [![codecov](https://codecov.io/gh/trailheadapps/ebikes-lwc/branch/main/graph/badge.svg)](https://codecov.io/gh/trailheadapps/ebikes-lwc)
-
-![ebikes-logo](ebikes-logo.png)
-
-E-Bikes is a sample application that demonstrates how to build applications with Lightning Web Components and integrate with Salesforce Experiences. E-Bikes is a fictitious electric bicycle manufacturer. The application helps E-Bikes manage their products and reseller orders using a rich user experience.
+Salesforce POS is a sample application that demonstrates how to build applications with Lightning Web Components and integrate with Salesforce Experiences.
 
 <div>
     <img src="https://res.cloudinary.com/hy4kyit2a/f_auto,fl_lossy,q_70,w_50/learn/projects/quick-start-ebikes-sample-app/a11bf85d136053cdb4745123c4d0ae61_badge.png" align="left" alt="Trailhead Badge"/>
