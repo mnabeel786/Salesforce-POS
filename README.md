@@ -2,30 +2,6 @@
 
 Salesforce POS is a sample application that demonstrates how to build applications with Lightning Web Components and integrate with Salesforce Experiences.
 
-<div>
-    <img src="https://res.cloudinary.com/hy4kyit2a/f_auto,fl_lossy,q_70,w_50/learn/projects/quick-start-ebikes-sample-app/a11bf85d136053cdb4745123c4d0ae61_badge.png" align="left" alt="Trailhead Badge"/>
-    Learn more about this app by completing the <a href="https://trailhead.salesforce.com/en/content/learn/projects/quick-start-ebikes-sample-app">Quick Start: Explore the E-Bikes Sample App</a> Trailhead project.
-    <br/>
-    <br/>
-    <br/>
-</div>
-
-> This sample application is designed to run on Salesforce Platform. If you want to experience Lightning Web Components on any platform, please visit https://lwc.dev, and try out our Lightning Web Components sample application [LWC Recipes OSS](https://github.com/trailheadapps/lwc-recipes-oss).
-
-## Table of contents
-
--   [Installing E-Bikes using a scratch org](#installing-e-bikes-using-a-scratch-org)
--   [Installing E-Bikes using a Developer Edition Org or a Trailhead Playground](#installing-e-bikes-using-a-developer-edition-org-or-a-trailhead-playground)
--   [Optional demo installation](#optional-demo-installation)
-    -   [Pub Sub API demo](#pub-sub-api-demo)
--   [Optional tool installation](#optional-tool-installation)
-    -   [Code formatting](#code-formatting)
-    -   [Code linting](#code-linting)
-    -   [Pre-commit hook](#pre-commit-hook)
-    -   [Lightning Web Component tests](#lightning-web-component-tests)
-    -   [UI tests with UTAM](#ui-tests)
-    -   [Code Tours](#code-tours)
-
 ## Installing E-Bikes using a Scratch Org
 
 1. Set up your environment. Follow the steps in the [Quick Start: Lightning Web Components](https://trailhead.salesforce.com/content/learn/projects/quick-start-lightning-web-components/) Trailhead project. The steps include:
