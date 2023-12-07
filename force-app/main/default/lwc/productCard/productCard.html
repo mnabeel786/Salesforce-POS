@@ -1,76 +1,39 @@
 <template>
     <lightning-card icon-name="standard:webcart">
         <template lwc:if={recordId}>
-            <span slot="title">{productName}</span>
-            <lightning-button-icon
-                icon-name="utility:expand_alt"
-                slot="actions"
-                onclick={handleNavigateToRecord}
-                ><label>Open Record</label></lightning-button-icon
-            >
-            <div class="slds-var-m-horizontal_medium">
-                <img
-                    lwc:if={productPictureUrl}
-                    src={productPictureUrl}
-                    class="product"
-                    alt="Product picture"
+            <!-- <span slot="title">{productName}</span> -->
+            <div class="slds-grid slds-wrap">
+                <div class="slds-col slds-size_1-of-6">
+                    <img
+                        lwc:if={productPictureUrl}
+                        src={productPictureUrl}
+                        class="product"
+                        alt="Product picture"
                 />
-                <lightning-record-view-form
-                    record-id={recordId}
-                    onload={handleRecordLoaded}
-                    object-api-name="Product__c"
-                    density="compact"
-                >
-                    <lightning-output-field
-                        field-name={categoryField}
-                    ></lightning-output-field>
-                    <lightning-output-field
-                        field-name={levelField}
-                    ></lightning-output-field>
-                    <lightning-output-field
-                        field-name={msrpField}
-                    ></lightning-output-field>
-
-                    <section>Electric Components</section>
-                    <lightning-output-field
-                        field-name={batteryField}
-                    ></lightning-output-field>
-                    <lightning-output-field
-                        field-name={chargerField}
-                    ></lightning-output-field>
-                    <lightning-output-field
-                        field-name={motorField}
-                    ></lightning-output-field>
-                    <section>Frame</section>
-                    <lightning-output-field
-                        field-name={materialField}
-                    ></lightning-output-field>
-                    <lightning-output-field
-                        field-name={forkField}
-                    ></lightning-output-field>
-
-                    <section>Brakes</section>
-                    <div class="slds-form-element slds-form-element_horizontal">
-                        <span class="slds-form-element__label">Front</span>
-                        <div class="slds-form-element__control">
-                            <lightning-output-field
-                                field-name={frontBrakesField}
-                                variant="label-hidden"
-                                aria-labelledby="Front"
-                            ></lightning-output-field>
-                        </div>
-                    </div>
-                    <div class="slds-form-element slds-form-element_horizontal">
-                        <span class="slds-form-element__label">Rear</span>
-                        <div class="slds-form-element__control">
-                            <lightning-output-field
-                                field-name={rearBrakesField}
-                                variant="label-hidden"
-                                aria-labelledby="Rear"
-                            ></lightning-output-field>
-                        </div>
-                    </div>
-                </lightning-record-view-form>
+                </div>
+                <div class="slds-col slds-size_1-of-6">
+                    <lightning-button-icon
+                        icon-name="utility:dash"
+                        slot="actions"
+                        onclick={handleNavigateToRecord}
+                    ></lightning-button-icon>
+                </div>
+                <div class="slds-col slds-size_1-of-6">
+                    <span>2</span>
+                </div>
+                <div class="slds-col slds-size_1-of-6">
+                    <lightning-button-icon
+                        icon-name="utility:add"
+                        slot="actions"
+                        onclick={handleNavigateToRecord}
+                    ></lightning-button-icon>
+                </div>
+                <div class="slds-col slds-size_1-of-6">
+                    <span>-</span>
+                </div>
+                <div class="slds-col slds-size_1-of-6">
+                    <span>{price}</span>
+                </div>
             </div>
         </template>
 

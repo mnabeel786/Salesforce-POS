@@ -1,43 +1,14 @@
-import { LightningElement, wire } from 'lwc';
+import { LightningElement, wire, api, track } from 'lwc';
+
+//GraphQL wire adapter
+import { gql, graphql } from "lightning/uiGraphQLApi";
 
 // Lightning Message Service and a message channel
 import { NavigationMixin } from 'lightning/navigation';
 import { subscribe, MessageContext } from 'lightning/messageService';
 import PRODUCT_SELECTED_MESSAGE from '@salesforce/messageChannel/ProductSelected__c';
 
-// Utils to extract field values
-import { getFieldValue } from 'lightning/uiRecordApi';
-
-// Product__c Schema
-import PRODUCT_OBJECT from '@salesforce/schema/Product__c';
-import NAME_FIELD from '@salesforce/schema/Product__c.Name';
-import PICTURE_URL_FIELD from '@salesforce/schema/Product__c.Picture_URL__c';
-import CATEGORY_FIELD from '@salesforce/schema/Product__c.Category__c';
-import LEVEL_FIELD from '@salesforce/schema/Product__c.Level__c';
-import MSRP_FIELD from '@salesforce/schema/Product__c.MSRP__c';
-import BATTERY_FIELD from '@salesforce/schema/Product__c.Battery__c';
-import CHARGER_FIELD from '@salesforce/schema/Product__c.Charger__c';
-import MOTOR_FIELD from '@salesforce/schema/Product__c.Motor__c';
-import MATERIAL_FIELD from '@salesforce/schema/Product__c.Material__c';
-import FOPK_FIELD from '@salesforce/schema/Product__c.Fork__c';
-import FRONT_BRAKES_FIELD from '@salesforce/schema/Product__c.Front_Brakes__c';
-import REAR_BRAKES_FIELD from '@salesforce/schema/Product__c.Rear_Brakes__c';
-
-/**
- * Component to display details of a Product__c.
- */
 export default class ProductCard extends NavigationMixin(LightningElement) {
-    // Exposing fields to make them available in the template
-    categoryField = CATEGORY_FIELD;
-    levelField = LEVEL_FIELD;
-    msrpField = MSRP_FIELD;
-    batteryField = BATTERY_FIELD;
-    chargerField = CHARGER_FIELD;
-    motorField = MOTOR_FIELD;
-    materialField = MATERIAL_FIELD;
-    forkField = FOPK_FIELD;
-    frontBrakesField = FRONT_BRAKES_FIELD;
-    rearBrakesField = REAR_BRAKES_FIELD;
 
     // Id of Product__c to display
     recordId;
@@ -45,12 +16,72 @@ export default class ProductCard extends NavigationMixin(LightningElement) {
     // Product fields displayed with specific format
     productName;
     productPictureUrl;
+    price;
+    @track graphqlData;
 
     /** Load context for Lightning Messaging Service */
     @wire(MessageContext) messageContext;
 
     /** Subscription for ProductSelected Lightning message */
     productSelectionSubscription;
+
+    @wire(graphql, {
+        query: gql`
+        query getProperties($recordId: ID!){
+            uiapi {
+              query {
+                Product__c(
+                    where:{
+                        Id: {eq: $recordId}
+                    }) 
+                    {
+                  edges {
+                    node {
+                      Id
+                      Name {
+                        value
+                      }
+                      Picture_URL__c{
+                        value
+                      }
+                      Category__c{
+                        value
+                      }
+                      MSRP__c{
+                        value
+                      }
+                    }
+                  }
+                  pageInfo{
+                    endCursor
+                    hasNextPage
+                    hasPreviousPage
+                  }
+                }
+              }
+            }
+          }
+        `,
+        variables: "$variables",
+    })
+    graphqlQueryResult({ data }) {
+        if (data) {
+            console.log('graph query result');
+            console.log(data);
+            this.graphqlData =  data.uiapi.query.Product__c.edges.map(edge => edge.node);
+            console.log(this.graphqlData);
+        }
+    }
+    get variables() {
+        return {
+            recordId: this.recordId
+        };
+    }
+    // Trigger this function via a refresh button on the UI, or via javascript
+    @api
+    async refreshGraphQL() {
+        return refreshGraphQL(this.graphqlData);
+    }
 
     connectedCallback() {
         // Subscribe to ProductSelected message
@@ -64,8 +95,10 @@ export default class ProductCard extends NavigationMixin(LightningElement) {
     handleRecordLoaded(event) {
         const { records } = event.detail;
         const recordData = records[this.recordId];
-        this.productName = getFieldValue(recordData, NAME_FIELD);
-        this.productPictureUrl = getFieldValue(recordData, PICTURE_URL_FIELD);
+        console.log(recordData);
+        // this.productName = this.graphqlData[0].node.Name;
+        // this.productPictureUrl = this.graphqlData[0].node.Picture_URL__c;
+        // this.price = this.graphqlData[0].node.MSRP__c;
     }
 
     /**
@@ -73,17 +106,7 @@ export default class ProductCard extends NavigationMixin(LightningElement) {
      * lightning-record-view-form component will detect the change and provision new data.
      */
     handleProductSelected(productId) {
+        console.log(productId);
         this.recordId = productId;
-    }
-
-    handleNavigateToRecord() {
-        this[NavigationMixin.Navigate]({
-            type: 'standard__recordPage',
-            attributes: {
-                recordId: this.recordId,
-                objectApiName: PRODUCT_OBJECT.objectApiName,
-                actionName: 'view'
-            }
-        });
     }
 }
